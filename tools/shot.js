@@ -1,0 +1,42 @@
+// Visual test driver: node tools/shot.js <outdir>
+const { chromium } = require('/opt/node22/lib/node_modules/playwright');
+const out = process.argv[2] || 'shots';
+const fs = require('fs'); fs.mkdirSync(out, { recursive: true });
+(async () => {
+  const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+  const p = await b.newPage({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });
+  const errs = [];
+  p.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') errs.push(m.text()); });
+  p.on('pageerror', (e) => errs.push('PAGEERROR ' + e.message + '\n' + e.stack));
+  await p.goto('http://localhost:8123/index.html');
+  await p.waitForTimeout(1500);
+  await p.screenshot({ path: `${out}/01-title.png` });
+  await p.click('#btnPlay', { force: true }); await p.waitForTimeout(900);
+  await p.screenshot({ path: `${out}/02-levels.png` });
+  await p.click('.lcard .btn', { force: true }); await p.waitForTimeout(1200);
+  await p.screenshot({ path: `${out}/03-game-start.png` });
+  // place towers through the real UI: card click then map click
+  await p.click('.card[data-type="squirrel"]', { force: true });
+  await p.mouse.move(250, 300); await p.waitForTimeout(200);
+  await p.screenshot({ path: `${out}/04-placing.png` });
+  await p.mouse.click(250, 300); await p.waitForTimeout(300);
+  await p.click('.card[data-type="mortar"]', { force: true }); await p.mouse.move(420, 380); await p.mouse.click(420, 380);
+  await p.evaluate(() => { const g = App.game; g.gold += 2000; });
+  await p.click('.card[data-type="frost"]', { force: true }); await p.mouse.move(560, 420); await p.mouse.click(560, 420);
+  await p.click('.card[data-type="thunder"]', { force: true }); await p.mouse.move(740, 260); await p.mouse.click(740, 260);
+  await p.click('.card[data-type="farm"]', { force: true }); await p.mouse.move(120, 420); await p.mouse.click(120, 420);
+  await p.click('#btnWave', { force: true });
+  await p.evaluate(() => { const g = App.game; for (let i = 0; i < 60 * 14; i++) g.update(DT); });
+  await p.waitForTimeout(300);
+  await p.screenshot({ path: `${out}/05-wave1.png` });
+  await p.mouse.click(250, 290); await p.waitForTimeout(300);
+  await p.screenshot({ path: `${out}/06-panel.png` });
+  await p.evaluate(() => { const g = App.game; for (const t of g.towers) { g.upgrade(t); g.upgrade(t); } g.startNextWave(); g.startNextWave(); for (let i=0;i<4;i++){ g.waveIdx=Math.min(g.waveIdx, 8);} for (let i = 0; i < 60 * 3; i++) g.update(DT); g.startNextWave(); for (let i = 0; i < 60 * 9; i++) g.update(DT);});
+  await p.waitForTimeout(100);
+  await p.screenshot({ path: `${out}/07-midgame.png` });
+  await p.mouse.click(250, 290); await p.waitForTimeout(300);
+  await p.screenshot({ path: `${out}/08-branch.png` });
+  fs.writeFileSync(`${out}/errors.txt`, errs.join('\n'));
+  console.log('errors:', errs.length, errs.slice(0, 5).join('\n'));
+  await b.close();
+})();

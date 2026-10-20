@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ふわもりディフェンス - Puffwood Defense</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+
+  <!-- in-game HUD -->
+  <div id="hud" class="hidden">
+    <div class="hud-tl">
+      <div class="pill" id="pLives" title="ライフ"><span class="ico" data-icon="heart"></span><b id="lives">20</b></div>
+      <div class="pill" id="pGold" title="ゴールド"><span class="ico" data-icon="coin"></span><b id="gold">0</b></div>
+      <div class="pill wave" id="pWave"><span class="lbl">ウェーブ</span><b id="wave">0/10</b></div>
+    </div>
+    <div class="hud-tr">
+      <button class="btn round cream" id="btnSpeed" title="スピード切り替え (F)"><span class="ico" data-icon="fast"></span><em id="speedLbl">x1</em></button>
+      <button class="btn round cream" id="btnPause" title="ポーズ (P)"><span class="ico" data-icon="pause"></span></button>
+    </div>
+    <div id="bossbar" class="hidden"><div class="name">グルームキング</div><div class="bar"><i id="bossFill"></i></div></div>
+    <div id="shop"></div>
+    <button id="btnWave" title="次のウェーブ (Space)">
+      <svg class="ring" viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle id="waveRing" class="fg" cx="50" cy="50" r="44"/></svg>
+      <span class="face" id="waveFace"></span>
+      <span class="lbl" id="waveLbl">ウェーブ開始</span>
+      <span class="bonus" id="waveBonus"></span>
+    </button>
+    <div id="towerPanel" class="hidden"></div>
+    <div id="tooltip" class="hidden"></div>
+    <div id="banner"><div class="ribbon"><div class="t" id="bannerT"></div></div><div class="s" id="bannerS"></div></div>
+    <div id="intro" class="hidden"></div>
+    <div id="hint" class="hidden"></div>
+  </div>
+
+  <!-- title -->
+  <div id="title" class="screen">
+    <div class="title-shade"></div>
+    <div class="logo" id="logo"></div>
+    <div class="title-buttons">
+      <button class="btn big green" id="btnPlay">あそぶ</button>
+    </div>
+    <div class="title-toggles">
+      <button class="btn round cream toggle" id="tSfx" title="効果音"><span class="ico" data-icon="sound"></span></button>
+      <button class="btn round cream toggle" id="tMusic" title="音楽"><span class="ico" data-icon="music"></span></button>
+      <button class="btn round cream" id="tFull" title="フルスクリーン"><span class="ico" data-icon="full"></span></button>
+    </div>
+    <div class="credit">フォント: M PLUS Rounded 1c (SIL OFL 1.1) ／ グラフィック・サウンドはすべてプログラムで生成</div>
+  </div>
+
+  <!-- level select -->
+  <div id="levels" class="screen hidden">
+    <div class="levels-bg"></div>
+    <h1 class="heading">ステージをえらぼう</h1>
+    <div class="level-cards" id="levelCards"></div>
+    <button class="btn cream back" id="btnBack"><span class="ico" data-icon="back"></span>タイトルへ</button>
+  </div>
+
+  <!-- pause -->
+  <div id="pause" class="screen modal hidden">
+    <div class="panel">
+      <h2>ポーズ中</h2>
+      <button class="btn green wide" id="btnResume">つづける</button>
+      <button class="btn yellow wide" id="btnRestart">さいしょから</button>
+      <button class="btn cream wide" id="btnQuit">ステージ選択へ</button>
+      <div class="row">
+        <button class="btn round cream toggle" id="pSfx" title="効果音"><span class="ico" data-icon="sound"></span></button>
+        <button class="btn round cream toggle" id="pMusic" title="音楽"><span class="ico" data-icon="music"></span></button>
+        <button class="btn round cream" id="pFull" title="フルスクリーン"><span class="ico" data-icon="full"></span></button>
+      </div>
+      <div class="keys">操作: 1〜5 タワー選択 ／ Space 次のウェーブ ／ F スピード ／ U 強化 ／ Esc キャンセル</div>
+    </div>
+  </div>
+
+  <!-- result -->
+  <div id="result" class="screen modal hidden">
+    <div class="panel result">
+      <h2 id="resTitle">ステージクリア！</h2>
+      <div class="stars" id="resStars"></div>
+      <div class="res-stats" id="resStats"></div>
+      <div class="row" id="resButtons"></div>
+    </div>
+  </div>
+
+  <div id="fade"></div>
+</div>
+<script src="js/util.js"></script>
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../style.css">
+<body style="background:#8fd36c;overflow:auto"><canvas id="c" width="1500" height="900" style="width:1500px;height:900px"></canvas>
+<script src="../js/util.js"></script><script src="../js/data.js"></script><script src="../js/art.js"></script>
+<script>
+const ctx = document.getElementById('c').getContext('2d');
+ctx.fillStyle = '#8fd36c'; ctx.fillRect(0,0,1500,900);
+const types = Object.keys(ENEMIES);
+types.forEach((t, i) => {
+  const x = 90 + i * 150, y = 200;
+  ctx.save(); ctx.translate(x, y); const s = t==='king'?1.3:2.2; ctx.scale(s, s);
+  Art.shadow(ctx, 0, 1, 13*ENEMIES[t].r/14, 5*ENEMIES[t].r/14);
+  if (ENEMIES[t].fly) ctx.translate(0,-32);
+  Art.enemy[t](ctx, enemyPal(t, 0), 0.8, 1, false); ctx.restore();
+});
+let col = 0;
+for (const t of TOWER_ORDER) for (const [lv, br] of [[1,null],[2,null],[3,null],[4,'A'],[4,'B']]) {
+  if (t === 'farm' && lv === 4) continue;
+  const x = 70 + col * 64, y = 520 + Math.floor(0) ; 
+  col++;
+}
+let r = 0;
+for (const t of TOWER_ORDER) {
+  let c = 0;
+  for (const [lv, br] of [[1,null],[2,null],[3,null],[4,'A'],[4,'B']]) {
+    if (t === 'farm' && lv === 4) continue;
+    ctx.save(); ctx.translate(80 + c * 120 + r * 0, 0); ctx.restore();
+    ctx.save(); ctx.translate(100 + (r) * 280 + (c%5) * 0, 0); ctx.restore();
+    c++;
+  }
+  r++;
+}
+// tower grid: rows = level, cols = type
+TOWER_ORDER.forEach((t, ci) => {
+  [[1,null],[2,null],[3,null],[4,'A'],[4,'B']].forEach(([lv, br], ri) => {
+    if (t === 'farm' && lv === 4) return;
+    ctx.save(); ctx.translate(120 + ci * 290 + (ri>=3 ? (ri-3)*130 : ri*90) , ri>=3 ? 860 : 420 + 0); 
+    ctx.restore();
+  });
+});
+TOWER_ORDER.forEach((t, ci) => {
+  [[1,null],[2,null],[3,null],[4,'A'],[4,'B']].forEach(([lv, br], ri) => {
+    if (t === 'farm' && lv === 4) return;
+    const x = 60 + ri * 100 + (ci%5) * 0, y = 0;
+    ctx.save(); ctx.translate(60 + ci * 290 + (ri % 3) * 92, ri < 3 ? 470 : 760); if (ri>=3) ctx.translate((ri-3)*130 + 40, 0);
+    ctx.scale(1.4,1.4); Art.shadow(ctx,3,3,32,13,0.25);
+    Art.tower[t](ctx, {level: lv, branch: br, angle: -0.5, x: ci*10, id: 1, fireAnim: 0}, 0.5); ctx.restore();
+  });
+});
+</script>
