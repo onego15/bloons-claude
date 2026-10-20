@@ -3,6 +3,17 @@
 ブラウザで動く、カジュアルなタワーディフェンスゲームです。
 インクのいたずら者「グルーム」たちから、森の家にある「ひだまりの種」を守ります。
 
+![プレイ動画](screenshots/gameplay.gif)
+
+| | |
+|---|---|
+| ![タイトル画面](screenshots/title.png) | ![ステージ選択](screenshots/levels.png) |
+| タイトル | ステージ選択 |
+| ![もみじの森での戦闘](screenshots/battle-autumn.png) | ![タワーの強化パネル](screenshots/upgrade-panel.png) |
+| もみじの森（道が2本） | 強化パネル（Lv3で最終形態を2択） |
+| ![ゆきどけ高原のボス戦](screenshots/boss-snow.png) | |
+| ゆきどけ高原のボス戦 | |
+
 ## 起動方法
 
 どれか1つで遊べます。
@@ -58,7 +69,8 @@ index.html, style.css     フォルダ版の本体
 js/                       util / data（タワー・敵・ステージ）/ art / audio / game / ui / main
 fonts/                    サブセット済みフォントとライセンス
 dist/                     1ファイル版
-tools/                    開発用（バランス検証 sim.js、スクリーンショット・操作テスト、ビルド）
+tools/                    開発用（バランス検証 sim.js、スクリーンショット・操作テスト、録画 record.js、ビルド）
+screenshots/              README用の画像とプレイ動画
 ```
 
 `tools/sim.js` は画面なしでゲームを自動プレイし、各ステージがクリア可能か・単調な戦略では負けるかを確認するスクリプトです（`node tools/sim.js`）。
