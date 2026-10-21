@@ -54,10 +54,10 @@ Bloons TD 6やKingdom Rushのような、カジュアルで中毒性のあるタ
 
 どれか1つで遊べます。
 
-0. **インストール不要**: https://onego15.github.io/bloons-claude/ を開く（GitHub Pages）。
-1. **いちばん簡単**: `dist/puffwood-defense.html` をブラウザ（Chrome / Edge / Firefox / Safari）にドラッグして開く。フォントも含めて1ファイルにまとめてあります。
-2. **フォルダ版**: `index.html` をダブルクリックで開く。
-3. **ローカルサーバー**: このフォルダで `python3 -m http.server 8000` を実行し、`http://localhost:8000/` を開く。
+1. **インストール不要**: https://onego15.github.io/bloons-claude/ を開く（GitHub Pages）。
+2. **1ファイル版**: `dist/puffwood-defense.html` をブラウザ（Chrome / Edge / Firefox / Safari）にドラッグして開く。フォントも含めて1ファイルにまとめてあります。
+3. **フォルダ版**: `index.html` をダブルクリックで開く。
+4. **ローカルサーバー**: このフォルダで `python3 -m http.server 8000` を実行し、`http://localhost:8000/` を開く。
 
 インストールやビルドは不要です。音は最初にクリックした後から鳴ります（ブラウザの仕様）。
 
